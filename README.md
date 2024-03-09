@@ -1,47 +1,75 @@
-# Phase3_Project
-Data Understanding for Predicting Customer Churn
+# Identifying Customer Churn
 
-Dataset Overview:
+The goal of this project was to create a binary classification model to determine which customers are likely to leave the telecom company. Once customers are identified, the customer service team will contact them proactively to determine why they might leave. Resulting strategies to lower churn could include addressing individual customer concerns by customer service or general engineering improvements or sales policy changes.
+To identify general improvements, it is not necessary to identify every churn instance, only enough to get sufficient customer feedback.
 
-The dataset contains information about SyriaTel's customers, including various features related to their account, usage, and interactions with the telecom services.
 
-The target variable is 'churn,' which is a boolean indicating whether a customer has churned (True/1) or not (False/0).
-Feature Descriptions:
+# The Dataset
 
-account length: The duration of the customer's account with SyriaTel (numeric).
+The dataset contained 20 features. The columns in red were dropped because of low relevance (State, Phone Number) and correlation with other columns (eg Total Day Charges had a perfect correlation with Totaal Day Minutes since the charge is based on the Total Day Minutes). 
 
-area code: The area code associated with the customer's phone number (numeric).
+![Churn Dataset](images/dataset.jpg)
 
-phone number: Unique identifier for each customer (object, may not be directly useful for modeling).
+# Final Feature Set Importance
 
-international plan: Whether the customer has an international calling plan (categorical: 'yes' or 'no').
+Two features stood out as being most important: Total Day Minutes and Customer Service Calls. Both make sense as heavy users and those interacting with customer service are likely to be the users experiencing the most problems, and therefore the most dissatisfaction. 
 
-voice mail plan: Whether the customer has a voicemail plan (categorical: 'yes' or 'no').
+![Churn Feature Set](images/FeatureSet.jpg)
 
-number vmail messages: The number of voicemail messages the customer has (numeric).
+# Evaluation Criteria
 
-total day minutes: Total minutes of usage during the day (numeric).
+I built six models to determined the best predictor of customer churn. The models were evaluated on:
 
-total day calls: Total number of calls made during the day (numeric).
+F1 Score - a measure of both precision (true positives/predicted positives) and recall (predicted true positives/actual true positives)
 
-total day charge: Total charges for day usage (numeric).
+Accuracy - the total number of predictions the model gets correct
 
-total eve minutes: Total minutes of usage during the evening (numeric).
+Confusion Matrix - shows True Negatives, False Positives, False Negatives, True Positives
 
-total eve calls: Total number of calls made during the evening (numeric).
+The confusion matrix will be the most important criterion. Since the goal of this project is to identify potential churn customers and contact them to determine the reason for their dissatisfaction, we don't need to talk to every single one to determine the main reasons for churn. The assumption here is that the reasons for churn are not unique to each customer but rather shared among many customers. It is important that those customers we do speak with are likely to leave, so that the reasons for dissatisfaction that we identify are the reasons customers leave. So the evaluation will focus on the true positive to false positive ratio for each model.
 
-total eve charge: Total charges for evening usage (numeric).
+# Logistic Regression Model
 
-total night minutes: Total minutes of usage during the night (numeric).
+The first model considered is a logistic regression model. It had a low F1 Score (a 0.37 in a range of 0-1.0) and an accuracy of 0.71. Most importantly, the majority of the predicted positives are false positives (the upper right corner of the confusion matrix) rather than true positives (lower right of the confusion matrix). It leaves plenty of room for improvement.
 
-total night calls: Total number of calls made during the night (numeric).
+![Logistic Regression Model](images/LogisticRegression.jpg)
 
-total night charge: Total charges for night usage (numeric).
+# GaussianNB Model
 
-total intl minutes: Total international minutes of usage (numeric).
+The second model considered is a GaussianNB model. Its F1 Score is not much better. its accuracy is lower, and it has more false positives.
 
-total intl calls: Total number of international calls made (numeric).
+![GaussianNB Model](images/GaussianNB.jpg)
 
-total intl charge: Total charges for international usage (numeric).
+# KNN Model
 
-customer service calls: Number of customer service calls made by the customer (numeric).
+The third model considered is a K Nearest Neighbor model, and its performance was similar to the first two.
+
+![KNN Model](images/KNN.jpg)
+
+# Gradient Boost Model
+
+Here we see some improvement. The number of false positives, 69 is less than the number of true positives, and that is reflected in higher F1 and Accuracy scores.
+
+![Gradient Boost Model](images/GradientBoost.jpg)
+
+# Random Forest Model
+
+The Random Forest Model is better still. There is a better true positive to false positive ratio than the Gradient Boost Model.
+
+![Random Forest Model](images/RandomForest.jpg)
+
+
+# XGBoost Model
+
+Finally, we have the XGBoost model which has the best ratio of true positives to false positives, along with the best F1 and Accuracy scores.
+
+![XGBoost Model](images/XGBoostjpg)
+
+
+# Conclusions
+
+The XGBoost model gives the best predictive model, with an F1 Score of 0.75 and an accuracy score of 0.93.
+
+The model gives more false positives than negatives, which is preferred as it emphasizes capturing as much churn as possible.
+
+The two most important features for predicting churn are the total number of day minutes used and the number of customer service calls.
