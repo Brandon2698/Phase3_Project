@@ -12,8 +12,6 @@ As you can see, there isn't a lot of perfect correlation among the variables exc
 
 This however is to be expected as the charges are determined directly by the minutes spent on the call.
 
-![Churn Dataset](images/dataset.jpg)
-
 
 # Evaluation Criteria
 
@@ -33,7 +31,7 @@ This model had a high number (182) of instances in which it incorrectly classifi
 
 The model is not yet optimal for use as it has  a high degree of incorrect results needing further tuning.
 
-![Logistic Regression Model](images/LogisticRegression.jpg)
+([Churn Data Images/output.png](https://github.com/Brandon2698/Phase3_Project/blob/main/Churn%20Data%20Images/output.png?raw=true))
 
 # Random Forest Model
 
@@ -41,7 +39,7 @@ There were 76 correctly predicted instances of churn despite only 23 instances o
 
 This means this is a better model but the 25 false negatives indicate potential missed opportunities for getting customers at risk of churn.
 
-![Random Forest Model](images/RandomForest.jpg)
+[![Random Forest Model](images/RandomForest.jpg)](https://github.com/Brandon2698/Phase3_Project/blob/main/Churn%20Data%20Images/output1.png?raw=true)
 
 # Gradient Boost Model
 
@@ -49,7 +47,7 @@ The Gradient Boost model predicted 79 instances of customer churn with only 30 i
 
 This model produced the highest accuracies so was chosen for further fine tuning.
 
-![Gradient Boost Model](images/GradientBoost.jpg)
+[![Gradient Boost Model](images/GradientBoost.jpg)](https://github.com/Brandon2698/Phase3_Project/blob/main/Churn%20Data%20Images/output2.png?raw=true)
 
 # Evaluation (ROC)
 
@@ -57,11 +55,15 @@ As per the Receiver Operating Characteristic curve, the Random Forest and Gradie
 
 The knn and logistic regression models have the poorest predictive abilities.
 
+[![ROC Model](images/ROCModel.jpg)](https://github.com/Brandon2698/Phase3_Project/blob/main/Churn%20Data%20Images/output3.png?raw=true)
+
 # False Positive - False Negative Trade-off
 
 In this trade-off, decrease of the false positives was prioritized to slightly increasing the false negatives.
 
 This reduces the risk of losing customers incorrectly classified as non-churned aiding the business’goals.
+
+[![Confusion Matrix](images/ConfusionMatrix.jpg)](https://github.com/Brandon2698/Phase3_Project/blob/main/Churn%20Data%20Images/output5.png?raw=true)
 
 # Evaluation
 
