@@ -4,17 +4,16 @@ The goal of this project was to create a binary classification model to determin
 To identify general improvements, it is not necessary to identify every churn instance, only enough to get sufficient customer feedback.
 
 
-# The Dataset
+# Data Understanding
 
-The dataset contained 20 features. The columns in red were dropped because of low relevance (State, Phone Number) and correlation with other columns (eg Total Day Charges had a perfect correlation with Totaal Day Minutes since the charge is based on the Total Day Minutes). 
+The dataset contained 20 features. The correlation shows how different variables relate to each other.
+
+As you can see, there isn't a lot of perfect correlation among the variables except the few exceptions of minutes and charges.
+
+This however is to be expected as the charges are determined directly by the minutes spent on the call.
 
 ![Churn Dataset](images/dataset.jpg)
 
-# Final Feature Set Importance
-
-Two features stood out as being most important: Total Day Minutes and Customer Service Calls. Both make sense as heavy users and those interacting with customer service are likely to be the users experiencing the most problems, and therefore the most dissatisfaction. 
-
-![Churn Feature Set](images/FeatureSet.jpg)
 
 # Evaluation Criteria
 
@@ -30,46 +29,57 @@ The confusion matrix will be the most important criterion. Since the goal of thi
 
 # Logistic Regression Model
 
-The first model considered is a logistic regression model. It had a low F1 Score (a 0.37 in a range of 0-1.0) and an accuracy of 0.71. Most importantly, the majority of the predicted positives are false positives (the upper right corner of the confusion matrix) rather than true positives (lower right of the confusion matrix). It leaves plenty of room for improvement.
+This model had a high number (182) of instances in which it incorrectly classified non-churn as churn while also correctly predicting 72 instances of churn.
+
+The model is not yet optimal for use as it has  a high degree of incorrect results needing further tuning.
 
 ![Logistic Regression Model](images/LogisticRegression.jpg)
 
-# GaussianNB Model
-
-The second model considered is a GaussianNB model. Its F1 Score is not much better. its accuracy is lower, and it has more false positives.
-
-![GaussianNB Model](images/GaussianNB.jpg)
-
-# KNN Model
-
-The third model considered is a K Nearest Neighbor model, and its performance was similar to the first two.
-
-![KNN Model](images/KNN.jpg)
-
-# Gradient Boost Model
-
-Here we see some improvement. The number of false positives, 69 is less than the number of true positives, and that is reflected in higher F1 and Accuracy scores.
-
-![Gradient Boost Model](images/GradientBoost.jpg)
-
 # Random Forest Model
 
-The Random Forest Model is better still. There is a better true positive to false positive ratio than the Gradient Boost Model.
+There were 76 correctly predicted instances of churn despite only 23 instances of non-churn incorrectly classified as churn.
+
+This means this is a better model but the 25 false negatives indicate potential missed opportunities for getting customers at risk of churn.
 
 ![Random Forest Model](images/RandomForest.jpg)
 
+# Gradient Boost Model
 
-# XGBoost Model
+The Gradient Boost model predicted 79 instances of customer churn with only 30 instances of incorrect predictions.
 
-Finally, we have the XGBoost model which has the best ratio of true positives to false positives, along with the best F1 and Accuracy scores.
+This model produced the highest accuracies so was chosen for further fine tuning.
 
-![XGBoost Model](images/XGBoostjpg)
+![Gradient Boost Model](images/GradientBoost.jpg)
+
+# Evaluation (ROC)
+
+As per the Receiver Operating Characteristic curve, the Random Forest and Gradient Boost model have the best predictive performances shown by their high AUCs.
+
+The knn and logistic regression models have the poorest predictive abilities.
+
+# False Positive - False Negative Trade-off
+
+In this trade-off, decrease of the false positives was prioritized to slightly increasing the false negatives.
+
+This reduces the risk of losing customers incorrectly classified as non-churned aiding the business’goals.
+
+# Evaluation
+
+Our model can correctly make predictions for approximately 93.7% of the customers, indicating that the model's predictions were accurate for the majority of the customers. Out of all the customers predicted as churned, approximately 69.44% of them actually churned, indicating that when the model identified a customer as churned, it was correct around 69.44% of the time. 
+
+Our model successfully captured about 86.96% of the customers who truly churned. The F1 score of 79.2% indicates that our model achieved a balanced trade-off between correctly identifying churned customers and minimizing false predictions.
+
+# Conclusion
+
+In conclusion, both the Random Forest model and the Gradient Boost model show good performance in predicting customer churn. However, the Random Forest model has a slightly lower testing accuracy and precision compared to the other model. This suggests that the GB model may have a better balance between false positive and false negative predictions.
+The trade-off between identifying as many churn cases as possible (high recall) and minimizing false positive predictions (high precision) is necessary for our analysis as it improves the predictive performance of our model and serves the objective of our stakeholder.
+The features that contribute the most to whether a customer churns or not include 'customer service calls', 'total day charge', 'total day minutes', 'total international calls', and 'total eve minutes'.
+
+# Recommendations
+
+Assess the Pricing Structure: Syria Tel should consider examining charges and researching methods for optimizing pricing plans or introducing flexible pricing options to satisfy the different needs of customers. 
+Targeted Retaining Strategies: According to the model's projections, the organization should focus on customers who are more likely to churn. Identifying these clients ahead of time allows the organization to interact with them proactively, offering specific rewards, discounts, or upgraded services to encourage continuous loyalty. 
+Customer Sectioning: Syria Tel should separate its customers depending on their churn propensity, allowing it to better customize its marketing and retention efforts. 
 
 
-# Conclusions
 
-The XGBoost model gives the best predictive model, with an F1 Score of 0.75 and an accuracy score of 0.93.
-
-The model gives more false positives than negatives, which is preferred as it emphasizes capturing as much churn as possible.
-
-The two most important features for predicting churn are the total number of day minutes used and the number of customer service calls.
